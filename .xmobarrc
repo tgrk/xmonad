@@ -1,0 +1,19 @@
+Config { font = "-misc-fixed-*-*-*-*-13-*-*-*-*-*-*-*"
+       , bgColor = "black"
+       , fgColor = "grey"
+       , position = Top
+       , commands = [ Run Weather "LKPR" ["-t","<station>: <tempC>C","-L","18","-H","25","--normal","green","--high","red","--low","lightblue"] 36000
+		    , Run Cpu ["<cpu0>","-L","3","-H","50","--normal","green","--high","red"] 10
+                    , Run Cpu ["<cpu1>","-L","3","-H","50","--normal","green","--high","red"] 10
+ 	            , Run Memory ["-t","Mem: <usedratio>%"] 10
+                    , Run Swap [] 10
+	            , Run CpuFreq ["-t","<cpu0>Ghz","-L","0","-H","2","-n","white","-h","red"] 20
+                    , Run CpuFreq ["-t","<cpu1>Ghz","-L","0","-H","2","-n","white","-h","red"] 20
+                    , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
+                    , Run StdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , lowerOnStart = True
+       , template = "%StdinReader% }{ %cpu% %cpu% | %memory% %swap% | <fc=#dddddd>%LKPR%</fc> | <fc=#ffffff>%date%</fc>"
+       }

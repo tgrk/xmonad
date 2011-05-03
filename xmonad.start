@@ -1,0 +1,45 @@
+#!/bin/bash
+
+xrdb -merge .Xresources
+
+gnome-settings-daemon &
+/usr/lib/gnome-session/helpers/gnome-settings-daemon-helper &
+#gnome-panel &
+#gnome-screensaver &
+gnome-volume-control-applet &
+/usr/lib/vino/vino-server --sm-disable &
+
+syndaemon -d -t &
+# feh --bg-scale /path/to/background/image.png &
+xsetroot -solid "#636161"    # Darker gray.
+
+trayer --edge top --align right --SetDockType true --SetPartialStrut true \
+ --expand true --width 10 --transparent true --tint 0x191970 --height 12 &
+
+# This must be started before seahorse-daemon.
+eval $(gnome-keyring-daemon)
+export GNOME-KEYRING-SOCKET
+export GNOME-KEYRING-PID
+
+# This is all the stuff I found in "Startup Applications".
+#/usr/lib/gnome-session/helpers/at-spi-registryd-wrapper &
+#bluetooth-applet &
+sh -c 'test -e /var/cache/jockey/check || exec jockey-gtk --check 60' &
+#sh -c "sleep 60 && python /usr/share/gnome-panel/add-indicator-applet.py" &
+#sh -c "sleep 1 && gnome-power-manager" &
+#sh -c "sleep 31 && system-config-printer-applet > /dev/null 2> /dev/null" &
+seahorse-daemon &
+#update-notifier --startup-delay=60 
+
+# initialize instant messangers
+skype & pidgin &
+ 
+#xscreensaver -no-splash &
+#if [ -x /usr/bin/nm-applet ] ; then
+#   nm-applet --sm-disable &
+#fi
+
+xdg-user-dirs-gtk-update
+
+exec xmonad
+
