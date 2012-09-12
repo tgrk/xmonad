@@ -15,7 +15,7 @@ myManageHook = composeAll
     , className =? "gnome-screenshot" --> doFloat
     , className =? "Skype" --> doF(W.shift "1:chat")
     , className =? "Pidgin" --> doF(W.shift "1:chat")
-    , className =? "Evolution" --> doF(W.shift "2:mail")
+    , className =? "Thunderbird" --> doF(W.shift "2:mail")
     , className =? "Firefox" --> doF(W.shift "3:web")
     , className =? "Chrome" --> doF(W.shift "3:web")
     ]
@@ -34,13 +34,16 @@ main = do
         , modMask = mod4Mask          -- Rebind Mod to the Windows key
         , startupHook = setWMName "LG3D"
 	, terminal = "gnome-terminal"
+	, normalBorderColor  = "#000000"
+        , focusedBorderColor = "#666666"
         } `additionalKeys`
         [ ((mod4Mask .|. shiftMask, xK_z), spawn "xscreensaver-command -lock")
           
         , ((mod4Mask, xK_e), spawn "emacs")
         , ((mod4Mask, xK_f), spawn "firefox")
-        , ((mod4Mask, xK_m), spawn "evolution")
+        , ((mod4Mask, xK_m), spawn "thunderbird")
         , ((mod4Mask, xK_g), spawn "gimp")
+        , ((mod4Mask, xK_v), spawn "gnome-alsamixer")
         , ((mod4Mask, xK_x), spawn "gnome-terminal")
 
 	, ((mod4Mask, xK_Right), planeMove (Lines 1) Circular ToRight)

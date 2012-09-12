@@ -1,6 +1,6 @@
 Config { font = "-misc-fixed-*-*-*-*-13-*-*-*-*-*-*-*"
        , bgColor = "black"
-       , fgColor = "grey"
+       , fgColor = "white"
        , position = Top
        , commands = [ Run Weather "LKPR" ["-t","<station>: <tempC>C","-L","18","-H","25","--normal","green","--high","red","--low","lightblue"] 36000
 		    , Run Cpu ["<cpu0>","-L","3","-H","50","--normal","green","--high","red"] 10
