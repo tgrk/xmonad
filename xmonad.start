@@ -2,20 +2,23 @@
 
 xrdb -merge .Xresources
 
+# calibrate colors for Macbook AIR
+xcalib colorprofile.icc
+
+# start some gnome stuph
 gnome-settings-daemon &
 /usr/lib/gnome-session/helpers/gnome-settings-daemon-helper &
-#gnome-panel &
-#gnome-screensaver &
-gnome-volume-control-applet &
+gnome-sound-applet &
 /usr/lib/vino/vino-server --sm-disable &
 
 syndaemon -d -t &
-xsetroot -solid "#636161"    # Darker gray.
 
-/home/tgrk/wallpaper_changer.sh
+# set black background color
+xsetroot -solid "#000000"
 
+# start notifiation area
 trayer --edge top --align right --SetDockType true --SetPartialStrut true \
- --expand true --width 10 --transparent true --tint 0x191970 --height 12 &
+ --expand true --width 10 --transparent true --tint 0x191970 --height 17 &
 
 # This must be started before seahorse-daemon.
 eval $(gnome-keyring-daemon)
@@ -32,14 +35,22 @@ seahorse-daemon &
 # initialize instant messangers
 skype & pidgin &
 
+touchpad-indicator &
+
+# clipboard history
 parcellite &
- 
-#xscreensaver -no-splash &
-#if [ -x /usr/bin/nm-applet ] ; then
-#   nm-applet --sm-disable &
-#fi
 
-xdg-user-dirs-gtk-update
+# start screensaver for locking screen etc 
+xscreensaver -no-splash &
 
-exec xmonad
+# set background
+/usr/bin/feh --bg-fill "/home/wiso/Pictures/bender.jpg" &
+
+# start network manager
+if [ -x /usr/bin/nm-applet ] ; then
+   nm-applet --sm-disable &
+fi
+
+#exec xmonad
+exec ck-launch-session xmonad
 
