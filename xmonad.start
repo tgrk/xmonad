@@ -40,9 +40,6 @@ touchpad-indicator &
 # clipboard history
 parcellite &
 
-# set background
-/usr/bin/feh --bg-fill "/home/wiso/Pictures/bender.jpg" &
-
 # start network manager
 if [ -x /usr/bin/nm-applet ] ; then
    nm-applet --sm-disable &
