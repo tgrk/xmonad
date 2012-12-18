@@ -3,7 +3,7 @@
 xrdb -merge .Xresources
 
 # calibrate colors for Macbook AIR
-xcalib colorprofile.icc
+#xcalib colorprofile.icc
 
 # start some gnome stuph
 gnome-settings-daemon &
@@ -18,7 +18,7 @@ xsetroot -solid "#000000"
 
 # start notifiation area
 trayer --edge top --align right --SetDockType true --SetPartialStrut true \
- --expand true --width 10 --transparent true --tint 0x191970 --height 17 &
+ --expand true --widthtype request --transparent true --tint 0x000000 --height 17 &
 
 # This must be started before seahorse-daemon.
 eval $(gnome-keyring-daemon)
@@ -40,9 +40,6 @@ touchpad-indicator &
 # clipboard history
 parcellite &
 
-# start screensaver for locking screen etc 
-xscreensaver -no-splash &
-
 # set background
 /usr/bin/feh --bg-fill "/home/wiso/Pictures/bender.jpg" &
 
@@ -51,6 +48,6 @@ if [ -x /usr/bin/nm-applet ] ; then
    nm-applet --sm-disable &
 fi
 
-#exec xmonad
-exec ck-launch-session xmonad
+exec xmonad
+#exec ck-launch-session xmonad
 
