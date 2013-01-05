@@ -1,18 +1,21 @@
-Config { font = "-misc-fixed-*-*-*-*-13-*-*-*-*-*-*-*"
+Config { 
+         font = "xft:Fixed-8"
        , bgColor = "black"
        , fgColor = "gray"
 --       , lowerOnStart = True
 --       , position = Static { xpos = 0, ypos = 0, width = 1260, height = 16 }
-       , position = TopW L 85
+       , position = TopW L 86
        , commands = [ Run Weather "EDDB" ["-t","<station>: <tempC>C","-L","18","-H","25","--normal","green","--high","red","--low","lightblue"] 36000
 		    , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
+                    , Run Com "~/scripts/xmobar_cputemp.sh" [] "cpuTemp" 10
  	            , Run Memory ["-t","Mem: <usedratio>%"] 10
                     , Run Swap [] 10
                     , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
+                    , Run Battery ["-t","<timeleft>h","-L","10","-H","80","-p","3","--","-H","75","-h","green","-l","red"] 10
                     , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
        , lowerOnStart = True
-       , template = "%StdinReader% }{ %cpu% | %memory% %swap% | %EDDB% | <fc=#ffffff>%date%</fc>"
+       , template = "%StdinReader% }{ %cpu% Temp: %cpuTemp%°C | %memory% %swap% | %EDDB% | Batt: %battery% | <fc=#ffffff>%date%</fc>"
        }

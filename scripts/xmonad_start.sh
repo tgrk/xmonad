@@ -18,7 +18,7 @@ xsetroot -solid "#000000"
 
 # start notifiation area
 trayer --edge top --align right --SetDockType true --SetPartialStrut true \
- --expand true --widthtype request --transparent true --tint 0x000000 --height 17 &
+ --expand false --widthtype request --transparent true --tint 0x000000 --height 17 &
 
 # This must be started before seahorse-daemon.
 eval $(gnome-keyring-daemon)
@@ -39,6 +39,9 @@ touchpad-indicator &
 
 # clipboard history
 parcellite &
+
+# set background
+#/usr/bin/feh --bg-fill "/home/wiso/Pictures/bender.jpg" &
 
 # start network manager
 if [ -x /usr/bin/nm-applet ] ; then

@@ -5,6 +5,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.SetWMName
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
+import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.IM as IM
 import XMonad.Layout.Minimize
 import XMonad.Layout.WindowNavigation
@@ -14,14 +15,18 @@ import XMonad.Layout.ToggleLayouts
 import XMonad.Actions.Plane
 import XMonad.Layout.Grid
 import Data.Ratio ((%))
+import qualified XMonad.StackSet as W
+import qualified Data.Map        as M
  
 myManageHook = composeAll 
-    [ className =? "Vncviewer" --> doFloat
-    , className =? "vmplayer" --> doFloat
-    , className =? "Xmessage" --> doFloat
-    , className =? "gnome-screenshot" --> doFloat
+    [ className =? "Vncviewer" --> doCenterFloat
+    , className =? "vmplayer" --> doCenterFloat
+    , className =? "Xmessage" --> doCenterFloat
+    , className =? "gnome-screenshot" --> doCenterFloat
     , className =? "Skype" --> doF(W.shift "1:chat")
+    , className =? "Pidgin" --> doF(W.shift "1:chat")
     , className =? "Google-chrome" --> doF(W.shift "2:web")
+    , isFullscreen --> (doF W.focusDown <+> doFullFloat)
     ]
 
 -- Define the default layout
@@ -50,6 +55,7 @@ main = do
         [ 
           ((mod4Mask, xK_e), spawn "emacs")
         , ((mod4Mask, xK_f), spawn "google-chrome")
+        , ((mod4Mask, xK_m), spawn "thunderbird")
         , ((mod4Mask, xK_v), spawn "gnome-alsamixer")
         , ((mod4Mask, xK_x), spawn "gnome-terminal")
 	, ((mod4Mask .|. shiftMask, xK_h), spawn "sudo pm-hibernate")
@@ -60,5 +66,6 @@ main = do
 	, ((mod4Mask, xK_Right), planeMove (Lines 1) Circular ToRight)
 	, ((mod4Mask, xK_Left),  planeMove (Lines 1) Circular ToLeft)
 
+        , ((mod4Mask, xK_s), spawn "gnome-screenshot")     
         , ((0, xK_Print), spawn "gnome-screenshot")
       ]
