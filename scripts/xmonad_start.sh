@@ -18,7 +18,7 @@ xsetroot -solid "#000000"
 
 # start notifiation area
 trayer --edge top --align right --SetDockType true --SetPartialStrut true \
- --expand false --widthtype request --transparent true --tint 0x000000 --height 17 &
+ --expand false --widthtype request --transparent true --alpha 0 --tint 0x000000 --height 17 &
 
 # This must be started before seahorse-daemon.
 eval $(gnome-keyring-daemon)
@@ -30,20 +30,44 @@ export GNOME-KEYRING-PID
 sh -c 'test -e /var/cache/jockey/check || exec jockey-gtk --check 60' &
 sh -c "sleep 1 && gnome-power-manager" &
 
-seahorse-daemon &
+if [ -x /usr/bin/seahorse-daemon] ; then
+   /usr/bin/seahorse-daemon &
+fi
 
-# initialize instant messangers
-skype & pidgin &
+# instant messangers
+if [ -x /usr/bin/skype ] ; then
+   /usr/bin/skype &
+fi
+if [ -x /usr/bin/pidgin ] ; then
+   /usr/bin/pidgin &
+fi
 
-touchpad-indicator &
+# prevents touchpad madness while running you mouse
+if [ -x /usr/bin/touchpad-indicator ] ; then
+   /usr/bin/touchpad-indicator &
+fi
 
 # clipboard history
-parcellite &
+if [ -x /usr/bin/parcellite ] ; then
+   /usr/bin/parcellite &
+fi
 
-# set background
-#/usr/bin/feh --bg-fill "/home/wiso/Pictures/bender.jpg" &
+# video/gaming screen sleep prevention
+if [ -x /usr/bin/caffeine ] ; then
+   /usr/bin/caffeine &
+fi
 
-# start network manager
+# cpufrq indicator
+if [ -x /usr/bin/indicator-cpufreq ] ; then
+   /usr/bin/indicator-cpufreq &
+fi
+
+# dropbox 
+if [ -x /usr/bin/dropbox ] ; then
+   /usr/bin/dropbox start &
+fi 
+
+# network management applet
 if [ -x /usr/bin/nm-applet ] ; then
    nm-applet --sm-disable &
 fi
