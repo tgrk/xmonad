@@ -26,6 +26,9 @@ myManageHook = composeAll
     , className =? "Skype" --> doF(W.shift "1:chat")
     , className =? "Pidgin" --> doF(W.shift "1:chat")
     , className =? "Google-chrome" --> doF(W.shift "2:web")
+    , className =? "Steam" --> doFloat
+    , className =? "steam" --> doFullFloat -- bigpicture-mode
+    , className =? "Steam" --> doFloat
     , isFullscreen --> (doF W.focusDown <+> doFullFloat)
     ]
 
@@ -58,7 +61,7 @@ main = do
         , ((mod4Mask, xK_m), spawn "thunderbird")
         , ((mod4Mask, xK_v), spawn "gnome-alsamixer")
         , ((mod4Mask, xK_x), spawn "gnome-terminal")
-	, ((mod4Mask .|. shiftMask, xK_h), spawn "sudo pm-hibernate")
+	, ((mod4Mask .|. shiftMask, xK_h), spawn "gnome-screensaver-command -l && sleep 1 && sudo pm-hibernate")
 	, ((mod4Mask .|. shiftMask, xK_r), spawn "sudo reboot")
 	, ((mod4Mask .|. shiftMask, xK_s), spawn "sudo shutdown -h now")
 	, ((mod4Mask .|. shiftMask, xK_l), spawn "gnome-screensaver-command -l")
