@@ -61,10 +61,10 @@ main = do
         , ((mod4Mask, xK_m), spawn "thunderbird")
         , ((mod4Mask, xK_v), spawn "gnome-alsamixer")
         , ((mod4Mask, xK_x), spawn "gnome-terminal")
-	, ((mod4Mask .|. shiftMask, xK_h), spawn "gnome-screensaver-command -l && sleep 1 && sudo pm-hibernate")
+	, ((mod4Mask .|. shiftMask, xK_h), spawn "i3lock -c 121212 && sleep 1 && sudo pm-hibernate")
 	, ((mod4Mask .|. shiftMask, xK_r), spawn "sudo reboot")
 	, ((mod4Mask .|. shiftMask, xK_s), spawn "sudo shutdown -h now")
-	, ((mod4Mask .|. shiftMask, xK_l), spawn "gnome-screensaver-command -l")
+	, ((mod4Mask .|. shiftMask, xK_l), spawn "i3lock -c 121212")
 
 	, ((mod4Mask, xK_Right), planeMove (Lines 1) Circular ToRight)
 	, ((mod4Mask, xK_Left),  planeMove (Lines 1) Circular ToLeft)
