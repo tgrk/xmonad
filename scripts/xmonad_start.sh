@@ -2,14 +2,18 @@
 
 xrdb -merge .Xresources
 
-# calibrate colors for Macbook AIR
-#xcalib colorprofile.icc
+#function start_app() {
+#  local command = $0
+#  if [ -x $command] ; then
+#   exec $command &
+#  else
+#   echo "Unable to start command - $command"
+#  fi
+#}
 
 # start some gnome stuph
 gnome-settings-daemon &
 /usr/lib/gnome-session/helpers/gnome-settings-daemon-helper &
-gnome-sound-applet &
-/usr/lib/vino/vino-server --sm-disable &
 
 syndaemon -d -t &
 
@@ -17,7 +21,7 @@ syndaemon -d -t &
 xsetroot -solid "#000000"
 
 # start notifiation area
-trayer --edge top --align right --SetDockType true --SetPartialStrut true \
+trayer --edge top --align right --SetDockType true --SetPartialStrut true --padding 10 \
  --expand false --widthtype request --transparent true --alpha 0 --tint 0x000000 --height 17 &
 
 # This must be started before seahorse-daemon.
@@ -34,42 +38,14 @@ if [ -x /usr/bin/seahorse-daemon] ; then
    /usr/bin/seahorse-daemon &
 fi
 
-# instant messangers
-if [ -x /usr/bin/skype ] ; then
-   /usr/bin/skype &
-fi
-if [ -x /usr/bin/pidgin ] ; then
-   /usr/bin/pidgin &
-fi
-
-# prevents touchpad madness while running you mouse
-if [ -x /usr/bin/touchpad-indicator ] ; then
-   /usr/bin/touchpad-indicator &
-fi
-
-# clipboard history
-if [ -x /usr/bin/parcellite ] ; then
-   /usr/bin/parcellite &
-fi
-
-# video/gaming screen sleep prevention
-if [ -x /usr/bin/caffeine ] ; then
-   /usr/bin/caffeine &
-fi
-
-# cpufrq indicator
-if [ -x /usr/bin/indicator-cpufreq ] ; then
-   /usr/bin/indicator-cpufreq &
-fi
-
-# dropbox 
-if [ -x /usr/bin/dropbox ] ; then
-   /usr/bin/dropbox start &
-fi 
-
 # network management applet
 if [ -x /usr/bin/nm-applet ] ; then
-   nm-applet --sm-disable &
+   /usr/bin/nm-applet --sm-disable &
+fi
+
+# volume applet
+if [ -x /usr/bin/gnome-sound-applet ] ; then
+   /usr/bin/gnome-sound-applet &
 fi
 
 exec xmonad
