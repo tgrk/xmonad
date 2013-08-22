@@ -87,8 +87,8 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- Restart xmonad
     , ((modMask              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
 
-      , ((modMask, xK_Right), planeMove (Lines 1) Circular ToRight)
-      , ((modMask, xK_Left),  planeMove (Lines 1) Circular ToLeft)
+      , ((modMask .|. controlMask, xK_Right), planeMove (Lines 1) Circular ToRight)
+      , ((modMask .|. controlMask, xK_Left),  planeMove (Lines 1) Circular ToLeft)
 
       , ((modMask, xK_s), spawn "gnome-screenshot")
       , ((0, xK_Print), spawn "gnome-screenshot") 
