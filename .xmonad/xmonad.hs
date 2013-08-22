@@ -31,7 +31,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     [   ((modMask, xK_e), spawn "/usr/bin/emacs")
       , ((modMask, xK_f), spawn "google-chrome")
       , ((modMask, xK_x), spawn "gnome-terminal")
-      , ((modMask, xK_x), spawn "thunderbird")
+      , ((modMask, xK_m), spawn "thunderbird")
       , ((modMask .|. shiftMask, xK_c), kill)
       , ((modMask .|. shiftMask, xK_r), spawn "sudo reboot")
       , ((modMask .|. shiftMask, xK_s), spawn "sudo shutdown -h now")
