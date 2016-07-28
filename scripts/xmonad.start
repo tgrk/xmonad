@@ -2,15 +2,6 @@
 
 xrdb -merge .Xresources
 
-#function start_app() {
-#  local command = $0
-#  if [ -x $command] ; then
-#   exec $command &
-#  else
-#   echo "Unable to start command - $command"
-#  fi
-#}
-
 # start some gnome stuph
 gnome-settings-daemon &
 /usr/lib/gnome-session/helpers/gnome-settings-daemon-helper &
@@ -22,7 +13,7 @@ xsetroot -solid "#000000"
 
 # start notifiation area
 trayer --edge top --align right --SetDockType true --SetPartialStrut true --padding 10 \
- --expand false --widthtype request --transparent true --alpha 0 --tint 0x000000 --height 17 &
+ --expand true --widthtype request --transparent true --alpha 0 --tint 0x000000 --height 17 &
 
 # This must be started before seahorse-daemon.
 eval $(gnome-keyring-daemon)
@@ -46,6 +37,11 @@ fi
 # volume applet
 if [ -x /usr/bin/gnome-sound-applet ] ; then
    /usr/bin/gnome-sound-applet &
+fi
+
+# power management
+if [ -x /usr/bin/xfce4-power-manager ] ; then
+  /usr/bin/xfce4-power-manager &
 fi
 
 exec xmonad
