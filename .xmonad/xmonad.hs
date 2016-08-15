@@ -9,15 +9,17 @@ import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.IM as IM
 import XMonad.Layout.Minimize
 import XMonad.Layout.WindowNavigation
-import System.IO
+import XMonad.Layout.IndependentScreens
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.ToggleLayouts
 import XMonad.Actions.Plane
 import XMonad.Layout.Grid
+import System.IO
 import Data.Ratio ((%))
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 import XMonad.Actions.PhysicalScreens
+import Graphics.X11.ExtraTypes.XF86
 
 myModMask :: KeyMask
 myModMask = mod1Mask
@@ -29,6 +31,8 @@ myManageHook = composeAll
       , className =? "gitk" --> doFullFloat
       , className =? "gnome-screenshot" --> doCenterFloat
       , className =? "Firefox" --> doF(W.shift "1:web")
+      , className =? "Skype" --> doF(W.shift "9:IM")
+      , className =? "Slack" --> doF(W.shift "9:IM")
       , isFullscreen --> (doF W.focusDown <+> doFullFloat)
     ]
 
@@ -38,8 +42,19 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask, xK_k), spawn "/usr/bin/keepassx")
     , ((modMask .|. shiftMask, xK_x), spawn "gnome-terminal")
     , ((modMask .|. shiftMask, xK_c), kill)
+    , ((mod4Mask .|. shiftMask, xK_h), spawn "i3lock -c 121212 && sleep 1 && sudo pm-hibernate")
+    , ((mod4Mask .|. shiftMask, xK_l), spawn "i3lock -c 121212")
 
-    -- launch dmenu
+    -- volume controls
+    -- , ((0, xF86XK_AudioRaiseVolume), spawn "amixer set Master 5+")
+    -- , ((0, xF86XK_AudioLowerVolume), spawn "amixer set Master 5-")
+    -- , ((0, xF86XK_AudioMute), spawn "amixer set Master toggle")
+    
+    , ((0, 0x1008FF11), spawn "amixer set Master 10-")
+    , ((0, 0x1008FF13), spawn "amixer set Master 10+")
+    , ((0, 0x1008FF12), spawn "amixer set Master toggle")
+ 
+   -- launch dmenu
     , ((modMask, xK_p), spawn "dmenu_run")
 
     -- launch gmrun
@@ -102,17 +117,31 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- mod-[1..9], Switch to workspace N
     -- mod-shift-[1..9], Move client to workspace N
     --
-    [((m .|. modMask, k), windows $ f i)
-        | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+     [((m .|. modMask, k), windows $ f i)
+         | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
+         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+    -- [((m .|. modMask, k), windows $ onCurrentScreen f i)
+    --    | (i, k) <- zip (workspaces' conf) [xK_1 .. xK_9]
+    --    , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+
+    ++
+
+    --
+    -- mod-{q,w}, Switch to physical/Xinerama screens 1 or 2
+    -- mod-shift-{q,w}, Move client to screen 1 or 2
+    --
+    [((modMask .|. mask, key), f sc)
+        | (key, sc) <- zip [xK_q, xK_w] [0..]
+        , (f, mask) <- [(viewScreen, 0), (sendToScreen, shiftMask)]]
 
 main = do
-    xmproc <- spawnPipe "/usr/bin/xmobar /home/wiso/.xmobarrc"
+    xmproc <- spawnPipe "/usr/bin/xmobar /home/tgrk/.xmobarrc"
     xmonad $ defaultConfig
         { manageHook = manageDocks <+> myManageHook
                         <+> manageHook defaultConfig
         , layoutHook = avoidStruts  $  layoutHook defaultConfig
-	, workspaces = ["1:web"] ++ map show [2..10]
+	, workspaces = ["1:web"] ++ map show [2..8] ++ ["9:IM", "10:irc"]
+        --, workspaces = withScreens 2 ["1:chat", "2:web"] ++ map show [3..10]
         , logHook = dynamicLogWithPP $ xmobarPP
                         { ppOutput = hPutStrLn xmproc
                         , ppTitle = xmobarColor "green" "" . shorten 50
