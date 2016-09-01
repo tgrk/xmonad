@@ -10,13 +10,13 @@ xrandr --output DP1 --primary &
 gnome-settings-daemon &
 #/usr/lib/gnome-session/helpers/gnome-settings-daemon-helper &
 
+# required for running sudo for apps like unity-control-center 
+/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
+
 syndaemon -d -t &
 
 # set black background color
 xsetroot -solid "#000000"
-
-# randomly rotate wallpapers
-#/home/tgrk/scripts/random_wallpaper.sh &
 
 # start notifiation area
 trayer --edge top --align right --SetDockType true --SetPartialStrut true \
@@ -63,6 +63,17 @@ fi
 if [ -x /usr/bin/skype ] ; then
   /usr/bin/skype &
 fi
+
+# start caffeine for video playing etc
+if [ -x /usr/bin/caffeine-indicator ] ; then
+  /usr/bin/caffeine-indicator &
+fi
+
+# start odrive agent
+nohup "$HOME/.odrive-agent/bin/odriveagent">/dev/null &
+
+# dual display setup helper that detects secondary display status
+$HOME/scripts/dualdisplay_setup.sh &
 
 exec xmonad
 #exec ck-launch-session xmonad

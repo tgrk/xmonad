@@ -2,7 +2,7 @@ Config {
          font = "xft:Fixed-8"
        , bgColor = "black"
        , fgColor = "gray"
-       , position = TopW L 96
+       , position = TopW L 93
        , commands = [ Run Com "/home/tgrk/scripts/xmobar_weather.py" [] "weather" 600 
 		    , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
  	            , Run Memory ["-t","Mem: <usedratio>%"] 10
