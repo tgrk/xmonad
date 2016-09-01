@@ -1,10 +1,10 @@
 #!/bin/bash
 
-PWR=$(acpi -b | cut -f4 -d' ' | tr -d '%' | tr -d ',')
+PWR=$(acpi -b | cut -f4 -d' ' | tr -d '%' | tr -d ',' | head -n1)
 
+COLOR='green'
 if [ $PWR -gt 0 ] ; then
   COLOR='red'
-  SYM='%'
 fi
 
 if [ $PWR -gt 20 ] ; then
@@ -18,7 +18,6 @@ fi
 if [[ $(acpi -a) == 'Adapter 0: on-line' ]] ; then
   COLOR='cadetblue'
   PWR='AC'
-  SYM=''
 fi
 
-echo "<fc=$COLOR>$PWR$SYM</fc>"
+echo "<fc=$COLOR>$PWR</fc>"
