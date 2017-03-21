@@ -13,6 +13,9 @@ import XMonad.Layout.IndependentScreens
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.ToggleLayouts
 import XMonad.Actions.Plane
+import XMonad.Layout.Reflect
+import XMonad.Layout.ShowWName
+import XMonad.Layout.Tabbed
 import XMonad.Layout.Grid
 import System.IO
 import Data.Ratio ((%))
@@ -20,6 +23,15 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 import XMonad.Actions.PhysicalScreens
 import Graphics.X11.ExtraTypes.XF86
+
+--FIXME baby 1
+--imLayout = withIM slackRatio $
+--               reflectHoriz $
+--               withIM skypeRatio
+--               (Grid ||| Full ||| simpleTabbed)
+--               where
+--                   slackRatio = (1%7)
+--                   skypeRatio = (1%6)
 
 myModMask :: KeyMask
 myModMask = mod1Mask
@@ -40,20 +52,17 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   [   ((modMask, xK_e), spawn "/usr/bin/emacs")
     , ((modMask, xK_f), spawn "/usr/bin/firefox")
     , ((modMask, xK_k), spawn "/usr/bin/keepassx")
+    , ((modMask, xK_a), spawn "/usr/bin/gnome-alsamixer")
     , ((modMask .|. shiftMask, xK_x), spawn "gnome-terminal")
     , ((modMask .|. shiftMask, xK_c), kill)
-    , ((mod4Mask .|. shiftMask, xK_h), spawn "i3lock -c 121212 && sleep 1 && sudo pm-hibernate")
+    , ((mod4Mask .|. shiftMask, xK_h), spawn "sudo /etc/acpi/actions/sleep.sh")
     , ((mod4Mask .|. shiftMask, xK_l), spawn "i3lock -c 121212")
 
     -- volume controls
-    -- , ((0, xF86XK_AudioRaiseVolume), spawn "amixer set Master 5+")
-    -- , ((0, xF86XK_AudioLowerVolume), spawn "amixer set Master 5-")
-    -- , ((0, xF86XK_AudioMute), spawn "amixer set Master toggle")
-    
-    , ((0, 0x1008FF11), spawn "amixer set Master 10-")
-    , ((0, 0x1008FF13), spawn "amixer set Master 10+")
-    , ((0, 0x1008FF12), spawn "amixer set Master toggle")
- 
+    , ((0, 0x1008FF11), spawn "amixer set Master 5-")
+    , ((0, 0x1008FF13), spawn "amixer set Master 5+")
+    , ((0, 0x1008FF12), spawn "amixer -q -D pulse sset Master toggle")
+
    -- launch dmenu
     , ((modMask, xK_p), spawn "dmenu_run")
 
@@ -139,9 +148,9 @@ main = do
     xmonad $ defaultConfig
         { manageHook = manageDocks <+> myManageHook
                         <+> manageHook defaultConfig
-        , layoutHook = avoidStruts  $  layoutHook defaultConfig
+--FIXME baby 1        , layoutHook = avoidStruts $ onWorkspace "9:IM" imLayout  $  layoutHook defaultConfig
+        , layoutHook = avoidStruts $ layoutHook defaultConfig
 	, workspaces = ["1:web"] ++ map show [2..8] ++ ["9:IM", "10:irc"]
-        --, workspaces = withScreens 2 ["1:chat", "2:web"] ++ map show [3..10]
         , logHook = dynamicLogWithPP $ xmobarPP
                         { ppOutput = hPutStrLn xmproc
                         , ppTitle = xmobarColor "green" "" . shorten 50
