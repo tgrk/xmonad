@@ -2,7 +2,7 @@ Config {
          font = "xft:Fixed-8"
        , bgColor = "black"
        , fgColor = "gray"
-       , position = TopW L 93
+       , position = Top
        , commands = [ Run Com "/home/tgrk/scripts/xmobar_weather.py" [] "weather" 600 
 		    , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
  	            , Run Memory ["-t","Mem: <usedratio>%"] 10
@@ -10,10 +10,11 @@ Config {
                     , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
                     , Run Com "/home/tgrk/scripts/xmobar_battery.sh" [] "battery" 300
                     , Run Com "/home/tgrk/scripts/xmobar_volume.sh" [] "volume" 10
+                    , Run Com "/home/tgrk/scripts/trayer_padding_icon.sh" [] "trayerpad" 10
                     , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
        , lowerOnStart = True
-       , template = "%StdinReader% }{ %cpu% | %memory% %swap% | Weather: %weather% | Batt: %battery% | %volume% | <fc=#FFFFFF>%date%</fc>"
+       , template = "%StdinReader% }{ %cpu% | %memory% %swap% | Weather: %weather% | Batt: %battery% | %volume% | <fc=#FFFFFF>%date%</fc>%trayerpad%"
        }
