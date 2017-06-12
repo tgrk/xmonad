@@ -11,10 +11,11 @@ Config {
                     , Run Com "/home/tgrk/scripts/xmobar_battery.sh" [] "battery" 300
                     , Run Com "/home/tgrk/scripts/xmobar_volume.sh" [] "volume" 10
                     , Run Com "/home/tgrk/scripts/trayer_padding_icon.sh" [] "trayerpad" 10
+                    , Run Kbd [("us", "US"), ("cz", "CZ"), ("de", "DE")]
                     , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
        , lowerOnStart = True
-       , template = "%StdinReader% }{ %cpu% | %memory% %swap% | Weather: %weather% | Batt: %battery% | %volume% | <fc=#FFFFFF>%date%</fc>%trayerpad%"
+       , template = "%StdinReader% }{ %cpu% | %memory% %swap% | Weather: %weather% | Batt: %battery% | %volume% | %kbd% | <fc=#FFFFFF>%date%</fc>%trayerpad%"
        }
