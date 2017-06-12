@@ -10,7 +10,7 @@ xrandr --output DP1 --primary &
 gnome-settings-daemon &
 #/usr/lib/gnome-session/helpers/gnome-settings-daemon-helper &
 
-# required for running sudo for apps like unity-control-center 
+# required for running sudo for apps like unity-control-center
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 
 syndaemon -d -t &
@@ -18,9 +18,11 @@ syndaemon -d -t &
 # set black background color
 xsetroot -solid "#000000"
 
+# randomly rotate one of black wallpapers
+$HOME/scripts/random_wallpaper.sh &
+
 # start notifiation area
-trayer --edge top --align right --SetDockType true --SetPartialStrut true \
- --expand true --widthtype request --transparent true --alpha 0 --tint 0x000000 --height 17 &
+$HOME/scripts/start_trayer.sh &
 
 # This must be started before seahorse-daemon.
 eval $(gnome-keyring-daemon)
@@ -60,8 +62,8 @@ if [ -x /usr/bin/slack ] ; then
 fi
 
 # start skype
-if [ -x /usr/bin/skype ] ; then
-  /usr/bin/skype &
+if [ -x /usr/bin/skypeforlinux ] ; then
+  /usr/bin/skypeforlinux &
 fi
 
 # start caffeine for video playing etc
@@ -69,12 +71,13 @@ if [ -x /usr/bin/caffeine-indicator ] ; then
   /usr/bin/caffeine-indicator &
 fi
 
-# start odrive agent
-nohup "$HOME/.odrive-agent/bin/odriveagent">/dev/null &
+# start keybase client
+if [ -x /usr/bin/run_keybase ] ; then
+  /usr/bin/run_keybase &
+fi
 
-# dual display setup helper that detects secondary display status
-$HOME/scripts/dualdisplay_setup.sh &
+# start odrive agent
+#nohup "$HOME/.odrive-agent/bin/odriveagent">/dev/null &
 
 exec xmonad
 #exec ck-launch-session xmonad
-

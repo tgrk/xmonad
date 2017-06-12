@@ -39,11 +39,14 @@ myModMask = mod1Mask
 myManageHook = composeAll
     [ 	className =? "gnome-screenshot" --> doCenterFloat
       , title     =? "v2.kdbx - KeePassX" --> doCenterFloat
+      , title     =? "Quit GIMP" --> doCenterFloat
       , className =? "Xmessage" --> doCenterFloat
       , className =? "gitk" --> doFullFloat
       , className =? "gnome-screenshot" --> doCenterFloat
       , className =? "Firefox" --> doF(W.shift "1:web")
-      , className =? "Skype" --> doF(W.shift "9:IM")
+      , className =? "Firefox Developer Edition" --> doF(W.shift "1:web")
+      , title     =? "Skype for Linux Beta" --> doF(W.shift "9:IM")
+      , className =? "Spotify" --> doF(W.shift "8:Music")
       , className =? "Slack" --> doF(W.shift "9:IM")
       , isFullscreen --> (doF W.focusDown <+> doFullFloat)
     ]
@@ -57,6 +60,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask .|. shiftMask, xK_c), kill)
     , ((mod4Mask .|. shiftMask, xK_h), spawn "sudo /etc/acpi/actions/sleep.sh")
     , ((mod4Mask .|. shiftMask, xK_l), spawn "i3lock -c 121212")
+    , ((mod1Mask .|. controlMask, xK_space), spawn "/home/tgrk/scripts/xmonad_switch_keyboard.sh")
 
     -- volume controls
     , ((0, 0x1008FF11), spawn "amixer set Master 5-")
@@ -129,9 +133,6 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
      [((m .|. modMask, k), windows $ f i)
          | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
          , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
-    -- [((m .|. modMask, k), windows $ onCurrentScreen f i)
-    --    | (i, k) <- zip (workspaces' conf) [xK_1 .. xK_9]
-    --    , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
 
     ++
 
@@ -148,9 +149,9 @@ main = do
     xmonad $ defaultConfig
         { manageHook = manageDocks <+> myManageHook
                         <+> manageHook defaultConfig
---FIXME baby 1        , layoutHook = avoidStruts $ onWorkspace "9:IM" imLayout  $  layoutHook defaultConfig
+--        , layoutHook = avoidStruts $ onWorkspace "9:IM" imLayout  $  layoutHook defaultConfig
         , layoutHook = avoidStruts $ layoutHook defaultConfig
-	, workspaces = ["1:web"] ++ map show [2..8] ++ ["9:IM", "10:irc"]
+	, workspaces = ["1:web"] ++ map show [2..7] ++ ["8:Music", "9:IM", "10:irc"]
         , logHook = dynamicLogWithPP $ xmobarPP
                         { ppOutput = hPutStrLn xmproc
                         , ppTitle = xmobarColor "green" "" . shorten 50
