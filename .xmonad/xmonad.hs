@@ -46,7 +46,7 @@ myManageHook = composeAll
       , className =? "Firefox" --> doF(W.shift "1:web")
       , className =? "Firefox Developer Edition" --> doF(W.shift "1:web")
       , title     =? "Skype for Linux Beta" --> doF(W.shift "9:IM")
-      , className =? "Spotify" --> doF(W.shift "8:Music")
+      , className =? "" --> doF(W.shift "8:Music")
       , className =? "Slack" --> doF(W.shift "9:IM")
       , isFullscreen --> (doF W.focusDown <+> doFullFloat)
     ]
