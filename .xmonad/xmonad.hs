@@ -52,34 +52,33 @@ myManageHook = composeAll
     ]
 
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
-  [   ((modMask, xK_e), spawn "/usr/bin/emacs")
+  [ -- Shortcuts for misc programs
+      ((modMask, xK_e), spawn "/usr/bin/emacs")
     , ((modMask, xK_f), spawn "/usr/bin/firefox")
     , ((modMask, xK_k), spawn "/usr/bin/keepassx")
-    , ((modMask, xK_a), spawn "/usr/bin/gnome-alsamixer")
+    , ((modMask, xK_a), spawn "/usr/bin/pavucontrol")
+    , ((modMask .|. shiftMask, xK_a), spawn "XDG_CURRENT_DESKTOP=Unity gnome-control-center")
     , ((modMask .|. shiftMask, xK_x), spawn "gnome-terminal")
     , ((modMask .|. shiftMask, xK_c), kill)
     , ((mod4Mask .|. shiftMask, xK_h), spawn "sudo /etc/acpi/actions/sleep.sh")
     , ((mod4Mask .|. shiftMask, xK_l), spawn "i3lock -c 121212")
     , ((mod1Mask .|. controlMask, xK_space), spawn "/home/tgrk/scripts/xmonad_switch_keyboard.sh")
 
-    -- volume controls
+    -- Volume controls
     , ((0, 0x1008FF11), spawn "amixer set Master 5-")
     , ((0, 0x1008FF13), spawn "amixer set Master 5+")
     , ((0, 0x1008FF12), spawn "amixer -q -D pulse sset Master toggle")
 
-   -- launch dmenu
+    -- Launch dmenu
     , ((modMask, xK_p), spawn "dmenu_run")
 
-    -- launch gmrun
-    , ((modMask .|. shiftMask, xK_p), spawn "gmrun")
-
-    -- close focused window
+    -- Close focused window
     , ((modMask .|. shiftMask, xK_c), kill)
 
      -- Rotate through the available layout algorithms
     , ((modMask, xK_space), sendMessage NextLayout)
 
-    --  Reset the layouts on the current workspace to default
+    -- Reset the layouts on the current workspace to default
     , ((modMask .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)
 
     -- Resize viewed windows to the correct size
@@ -116,11 +115,12 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask, xK_t), withFocused $ windows . W.sink)
 
     -- Restart xmonad
-    , ((modMask, xK_q), spawn "xmonad --recompile; xmonad --restart")
+    , ((modMask, xK_q), spawn "xmonad --recompile && xmonad --restart")
 
     , ((modMask .|. controlMask, xK_Right), planeMove (Lines 1) Circular ToRight)
     , ((modMask .|. controlMask, xK_Left),  planeMove (Lines 1) Circular ToLeft)
 
+    -- Take a screenshot
     , ((modMask, xK_s), spawn "gnome-screenshot")
     , ((0, xK_Print), spawn "gnome-screenshot")
   ]
