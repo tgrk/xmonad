@@ -58,7 +58,7 @@ fi
 
 # start slack
 if [ -x /usr/bin/slack ] ; then
-  /usr/bin/slack &
+  /usr/bin/slack --disable-gpu &
 fi
 
 # start skype
@@ -71,10 +71,15 @@ if [ -x /usr/bin/caffeine-indicator ] ; then
   /usr/bin/caffeine-indicator &
 fi
 
-# start keybase client
-if [ -x /usr/bin/run_keybase ] ; then
-  /usr/bin/run_keybase &
+# start bluetooth manager
+if [ -x /usr/bin/blueman-applet ] ; then
+   /usr/bin/blueman-applet &
 fi
+
+# start keybase client
+#if [ -x /usr/bin/run_keybase ] ; then
+#  /usr/bin/run_keybase &
+#fi
 
 # start odrive agent
 #nohup "$HOME/.odrive-agent/bin/odriveagent">/dev/null &
