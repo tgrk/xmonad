@@ -34,7 +34,7 @@ import Graphics.X11.ExtraTypes.XF86
 --                   skypeRatio = (1%6)
 
 myModMask :: KeyMask
-myModMask = mod1Mask
+myModMask = mod4Mask -- 1=alt, 4=win key
 
 myManageHook = composeAll
     [ 	className =? "gnome-screenshot" --> doCenterFloat
@@ -45,7 +45,7 @@ myManageHook = composeAll
       , className =? "gnome-screenshot" --> doCenterFloat
       , className =? "Firefox" --> doF(W.shift "1:web")
       , className =? "Firefox Developer Edition" --> doF(W.shift "1:web")
-      , title     =? "Skype for Linux Beta" --> doF(W.shift "9:IM")
+      , title     =? "Skype" --> doF(W.shift "9:IM")
       , className =? "" --> doF(W.shift "8:Music")
       , className =? "Slack" --> doF(W.shift "9:IM")
       , isFullscreen --> (doF W.focusDown <+> doFullFloat)
@@ -53,15 +53,16 @@ myManageHook = composeAll
 
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   [ -- Shortcuts for misc programs
-      ((modMask, xK_e), spawn "/usr/bin/emacs")
+      ((modMask, xK_e), spawn "/usr/bin/code")
     , ((modMask, xK_f), spawn "/usr/bin/firefox")
+    , ((modMask, xK_m), spawn "/usr/bin/thunderbird")
     , ((modMask, xK_k), spawn "/usr/bin/keepassx")
     , ((modMask, xK_a), spawn "/usr/bin/pavucontrol")
+    , ((modMask .|. shiftMask, xK_b), spawn "/usr/bin/blueman-manager")
     , ((modMask .|. shiftMask, xK_a), spawn "XDG_CURRENT_DESKTOP=Unity gnome-control-center")
-    , ((modMask .|. shiftMask, xK_x), spawn "gnome-terminal")
-    , ((modMask .|. shiftMask, xK_c), kill)
-    , ((mod4Mask .|. shiftMask, xK_h), spawn "sudo /etc/acpi/actions/sleep.sh")
-    , ((mod4Mask .|. shiftMask, xK_l), spawn "i3lock -c 121212")
+    , ((modMask .|. shiftMask, xK_x), spawn "/usr/bin/gnome-terminal")
+    , ((modMask .|. shiftMask, xK_h), spawn "sudo /etc/acpi/actions/sleep.sh")
+    , ((mod1Mask .|. controlMask, xK_l), spawn "i3lock -c 121212")
     , ((mod1Mask .|. controlMask, xK_space), spawn "/home/tgrk/scripts/xmonad_switch_keyboard.sh")
 
     -- Volume controls
@@ -151,6 +152,9 @@ main = do
                         <+> manageHook defaultConfig
 --        , layoutHook = avoidStruts $ onWorkspace "9:IM" imLayout  $  layoutHook defaultConfig
         , layoutHook = avoidStruts $ layoutHook defaultConfig
+        , handleEventHook = mconcat
+                          [ docksEventHook
+                          , handleEventHook defaultConfig ]
 	, workspaces = ["1:web"] ++ map show [2..7] ++ ["8:Music", "9:IM", "10:irc"]
         , logHook = dynamicLogWithPP $ xmobarPP
                         { ppOutput = hPutStrLn xmproc
