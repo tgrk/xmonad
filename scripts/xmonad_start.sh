@@ -56,24 +56,29 @@ if [ -x /usr/bin/xfce4-power-manager ] ; then
   /usr/bin/xfce4-power-manager &
 fi
 
-# start slack
+# start Slack into its workspace
 if [ -x /usr/bin/slack ] ; then
   /usr/bin/slack --disable-gpu &
 fi
 
-# start skype
+# start Skype into its workspace
 if [ -x /usr/bin/skypeforlinux ] ; then
   /usr/bin/skypeforlinux &
 fi
 
-# start caffeine for video playing etc
+# start Caffeine for video playing etc
 if [ -x /usr/bin/caffeine-indicator ] ; then
   /usr/bin/caffeine-indicator &
 fi
 
-# start bluetooth manager
+# start Bluetooth manager
 if [ -x /usr/bin/blueman-applet ] ; then
    /usr/bin/blueman-applet &
+fi
+
+# starts Redshift tray icon
+if [ -x /usr/bin/redshift-gtk ] ; then
+   /usr/bin/redshift-gtk &
 fi
 
 # start keybase client
@@ -81,8 +86,15 @@ fi
 #  /usr/bin/run_keybase &
 #fi
 
-# start odrive agent
-#nohup "$HOME/.odrive-agent/bin/odriveagent">/dev/null &
+# start Google Drive client
+if [ -f /opt/thefanclub/overgrive/overgrive ] ; then
+   /usr/bin/python2.7 /opt/thefanclub/overgrive/overgrive &
+fi
+
+# start Thunderbird client into its workspace
+if [ -f /usr/bin/thunderbird ] ; then
+  /usr/bin/thunderbird &
+fi
 
 exec xmonad
 #exec ck-launch-session xmonad
