@@ -46,7 +46,8 @@ myManageHook = composeAll
       , className =? "Firefox" --> doF(W.shift "1:web")
       , className =? "Firefox Developer Edition" --> doF(W.shift "1:web")
       , title     =? "Skype" --> doF(W.shift "9:IM")
-      , className =? "" --> doF(W.shift "8:Music")
+      , className =? "Thunderbird" --> doF(W.shift "8:Mail")
+      , className =? "" --> doF(W.shift "7:Music")
       , className =? "Slack" --> doF(W.shift "9:IM")
       , isFullscreen --> (doF W.focusDown <+> doFullFloat)
     ]
@@ -155,7 +156,7 @@ main = do
         , handleEventHook = mconcat
                           [ docksEventHook
                           , handleEventHook defaultConfig ]
-	, workspaces = ["1:web"] ++ map show [2..7] ++ ["8:Music", "9:IM", "10:irc"]
+	, workspaces = ["1:web"] ++ map show [2..6] ++ ["7:Music", "8:Mail", "9:IM", "10:irc"]
         , logHook = dynamicLogWithPP $ xmobarPP
                         { ppOutput = hPutStrLn xmproc
                         , ppTitle = xmobarColor "green" "" . shorten 50
